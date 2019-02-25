@@ -39,6 +39,7 @@ class Home extends Component {
 
   render() {
     return (
+      /* Like FlatList but does not Lazy Load */
       <ScrollView>
         <RenderItem item={this.state.dishes.filter(dish => dish.featured)[0]} />
         <RenderItem

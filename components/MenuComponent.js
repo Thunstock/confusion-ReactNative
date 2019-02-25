@@ -11,6 +11,7 @@ class Menu extends Component {
     };
   }
 
+  /* Ensures that in status bar when Menu component is displayed, 'Menu' is the title */
   static navigationOptions = {
     title: "Menu"
   };
@@ -31,6 +32,7 @@ class Menu extends Component {
 
     const { navigate } = this.props.navigation;
     return (
+      /* FlatList lazy loads items while you scroll */
       <FlatList
         data={this.state.dishes}
         renderItem={renderMenuItem}
