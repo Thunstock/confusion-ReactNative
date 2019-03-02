@@ -16,8 +16,8 @@ export const fetchComments = () => dispatch => {
         }
       },
       error => {
-        var errMess = new Error(error.message);
-        throw errMess;
+        var errmess = new Error(error.message);
+        throw errmess;
       }
     )
     .then(response => response.json())
@@ -37,6 +37,7 @@ export const addComments = comments => ({
 
 export const fetchDishes = () => dispatch => {
   dispatch(dishesLoading());
+
   return fetch(baseUrl + "dishes")
     .then(
       response => {
@@ -51,8 +52,8 @@ export const fetchDishes = () => dispatch => {
         }
       },
       error => {
-        var errMess = new Error(error.message);
-        throw errMess;
+        var errmess = new Error(error.message);
+        throw errmess;
       }
     )
     .then(response => response.json())
@@ -76,6 +77,7 @@ export const addDishes = dishes => ({
 
 export const fetchPromos = () => dispatch => {
   dispatch(promosLoading());
+
   return fetch(baseUrl + "promotions")
     .then(
       response => {
@@ -90,8 +92,8 @@ export const fetchPromos = () => dispatch => {
         }
       },
       error => {
-        var errMess = new Error(error.message);
-        throw errMess;
+        var errmess = new Error(error.message);
+        throw errmess;
       }
     )
     .then(response => response.json())
@@ -108,13 +110,14 @@ export const promosFailed = errmess => ({
   payload: errmess
 });
 
-export const promosDishes = promos => ({
+export const addPromos = promos => ({
   type: ActionTypes.ADD_PROMOS,
   payload: promos
 });
 
 export const fetchLeaders = () => dispatch => {
   dispatch(leadersLoading());
+
   return fetch(baseUrl + "leaders")
     .then(
       response => {
@@ -129,8 +132,8 @@ export const fetchLeaders = () => dispatch => {
         }
       },
       error => {
-        var errMess = new Error(error.message);
-        throw errMess;
+        var errmess = new Error(error.message);
+        throw errmess;
       }
     )
     .then(response => response.json())
@@ -150,4 +153,15 @@ export const leadersFailed = errmess => ({
 export const addLeaders = leaders => ({
   type: ActionTypes.ADD_LEADERS,
   payload: leaders
+});
+
+export const postFavorite = dishId => dispatch => {
+  setTimeout(() => {
+    dispatch(addFavorite(dishId));
+  }, 2000);
+};
+
+export const addFavorite = dishId => ({
+  type: ActionTypes.ADD_FAVORITE,
+  payload: dishId
 });
