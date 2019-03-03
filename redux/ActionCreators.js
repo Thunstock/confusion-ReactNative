@@ -175,7 +175,7 @@ export const postComment = (dishId, rating, author, comment) => dispatch => {
   };
   newComment.date = new Date().toISOString();
 
-  console.log("newdate", JSON.stringify(newComment))
+  // console.log("newdate", JSON.stringify(newComment))
   setTimeout(() => {
     dispatch(addComment(newComment)
     )

@@ -71,7 +71,11 @@ function RenderComments(props) {
     return (
       <View key={index} style={{ margin: 10 }}>
         <Text style={{ fontSize: 14 }}>{item.comment}</Text>
-        <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+        <Rating
+          imageSize={20}
+          readonly
+          startingValue={item.rating}>
+        </Rating>
         <Text style={{ fontSize: 12 }}>
           {"-- " + item.author + ", " + item.date}
         </Text>
@@ -158,37 +162,36 @@ class DishDetail extends Component {
               fractions={1}
               startingValue={3.0}
               onFinishRating={rating => this.setState({ rating: rating })}
+              style={{ margin: 40 }}
             />
-          </View>
-          <View style={styles.formRow}>
             <Input
+              style={{ marginRight: 5 }}
               placeholder=" Author"
               leftIcon={{ type: "font-awesome", name: "user-o" }}
               onChangeText={value => this.setState({ author: value })}
             />
-          </View>
-          <View style={styles.formRow}>
             <Input
+              style={{ marginRight: 5 }}
               placeholder=" Comment"
               leftIcon={{ type: "font-awesome", name: "comment-o" }}
               onChangeText={value => this.setState({ comment: value })}
             />
-          </View>
-          <View style={{ margin: 10 }}>
-            <Button
-              onPress={() => this.handleComments(dishId)}
-              raised
-              title="Submit"
-              color="#512DA8"
-            />
-          </View>
-          <View style={{ margin: 10 }}>
-            <Button
-              onPress={() => this.toggleModal()}
-              raised
-              title="Cancel"
-              color="#696969"
-            />
+            <View style={{ margin: 10 }}>
+              <Button
+                onPress={() => this.handleComments(dishId)}
+                raised
+                title="Submit"
+                color="#512DA8"
+              />
+            </View>
+            <View style={{ margin: 10 }}>
+              <Button
+                onPress={() => this.toggleModal()}
+                raised
+                title="Cancel"
+                color="#696969"
+              />
+            </View>
           </View>
         </Modal>
       </ScrollView>
@@ -198,18 +201,9 @@ class DishDetail extends Component {
 
 const styles = StyleSheet.create({
   formRow: {
-    alignItems: "center",
+    paddingTop: 100,
     justifyContent: "center",
-    flex: 1,
-    flexDirection: "row"
-  },
-  modal: {
-    justifyContent: "center",
-    margin: 20
-  },
-  button: {
-    flexDirection: "column",
-    margin: 20
+
   }
 });
 
