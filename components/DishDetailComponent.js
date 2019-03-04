@@ -29,7 +29,14 @@ function RenderDish(props) {
   handleViewRef = ref => this.view = ref;
 
   const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
-    if (dx > -200)
+    if (dx < -200)
+      return true;
+    else
+      return false;
+  }
+
+  const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+    if (dx > 200)
       return true;
     else
       return false;
@@ -54,8 +61,10 @@ function RenderDish(props) {
             { text: 'OK', onPress: () => { props.favorite ? console.log('Already favorite') : props.onPress() } },
           ],
           { cancelable: false }
-        );
-
+        )
+      else if (recognizeComment(gestureState)) {
+        props.toggleModal()
+      }
       return true;
     }
   })
