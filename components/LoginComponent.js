@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { Icon, Input, CheckBox, Button } from 'react-native-elements';
-import { SecureStore, Permissions, ImagePicker } from 'expo';
+import { SecureStore, Permissions, ImagePicker, Asset, ImageManipulator } from 'expo';
 import { createBottomTabNavigator } from 'react-navigation';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -105,9 +105,16 @@ class RegisterTab extends Component {
 			lastname: '',
 			email: '',
 			remember: false,
-			imageUrl: baseUrl + './images/logo.png'
+			imageUrl: baseUrl + 'images/logo.png'
 		};
 	}
+
+	processImage = async (imageUri) => {
+		let processedImage = await ImageManipulator.manipulateAsync(imageUri, [ { resize: { width: 400 } } ], {
+			format: 'png'
+		});
+		this.setState({ imageUrl: processedImage.uri });
+	};
 
 	getImageFromCamera = async () => {
 		const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
@@ -120,7 +127,23 @@ class RegisterTab extends Component {
 			});
 
 			if (!capturedImage.cancelled) {
-				this.setState({ imageUrl: capturedImage.uri });
+				this.processImage(capturedImage.uri);
+			}
+		}
+	};
+
+	getImageFromGallery = async () => {
+		const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+		const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+		if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
+			let capturedImage = await ImagePicker.launchImageLibraryAsync({
+				allowsEditing: true,
+				aspect: [ 4, 3 ]
+			});
+
+			if (!capturedImage.cancelled) {
+				this.processImage(capturedImage.uri);
 			}
 		}
 	};
@@ -151,7 +174,8 @@ class RegisterTab extends Component {
 							loadingIndicatorSource={require('./images/logo.png')}
 							style={styles.image}
 						/>
-						<Button title="Camera" onPress={this.getImageFromCamera} />
+						<Button buttonStyle={styles.cameraButton} title="Camera" onPress={this.getImageFromCamera} />
+						<Button buttonStyle={styles.cameraButton} title="Gallery" onPress={this.getImageFromGallery} />
 					</View>
 					<Input
 						placeholder=" Username"
@@ -252,6 +276,10 @@ const styles = StyleSheet.create({
 		marginTop: 50,
 		marginBottom: 50,
 		flex: 1
+	},
+	cameraButton: {
+		backgroundColor: '#512DA8',
+		margin: 15
 	}
 });
 
